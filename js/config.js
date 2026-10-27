@@ -7,11 +7,11 @@
 const CONFIG = {
   // ID de la hoja ESPEJO PÚBLICA (la que crea el backend), NO el de la Maestra.
   // Sale en el correo de salud y al ejecutar LC_diagnostico en Apps Script.
-  SPREADSHEET_ID: "PENDIENTE_ID_DEL_ESPEJO",
+  SPREADSHEET_ID: "16dhZvXy39lnawDOWsDUB7cIHWPk20zlCrNuUjIUv1fI",
 
   // API key de Google Cloud, creada en el proyecto de Google Cloud de
   // ALEJANDRO (Sheets API habilitada, restringida al dominio del sitio).
-  API_KEY: "PENDIENTE_API_KEY_DE_ALEJANDRO",
+  API_KEY: "AIzaSyDQlU9leSPXotW9GiUPT5qYuSy3Wf0xoQI",
 
   // Pestaña del espejo que se lee. El backend la deja siempre como la primera.
   RANGE: "Portafolio",
@@ -29,11 +29,11 @@ const CONFIG = {
 
   // URL del despliegue (Web App) de Apps Script de la cuenta de Alejandro.
   // Recibe los leads. Termina en /exec.
-  LEADS_WEBAPP_URL: "PENDIENTE_URL_DEL_WEB_APP",
+  LEADS_WEBAPP_URL: "https://script.google.com/macros/s/AKfycbxyrKs3Ef-zgHopcs7TVQcYG2lQKBKMEwV35Ro3txqmDr74np16fTNSm8b0aA1h6BI4/exec",
 
   // Dirección pública del sitio, con "/" al final. Se usa en los mensajes que
   // se comparten (por ejemplo "Copiar para WhatsApp" en Solicitudes).
-  BASE_URL: "https://TU-USUARIO.github.io/NOMBRE-DEL-REPO/",
+  BASE_URL: "https://lc-mira.github.io/a.cadena/",
 
   // Marca
   MARCA_NOMBRE: "Alejandro Cadena Finanzas & Bienes Raíces",
