@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Reemplaza por la dirección real del sitio (misma que BASE_URL en js/config.js)
+Sitemap: https://TU-USUARIO.github.io/NOMBRE-DEL-REPO/sitemap.xml
