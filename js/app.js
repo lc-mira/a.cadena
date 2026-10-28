@@ -226,7 +226,7 @@ function rowsToPublicListings(values) {
     .map((row) => {
       // "Fotos" trae todas las URLs separadas por salto de línea (o coma);
       // la primera es la imagen principal de la tarjeta.
-      const fotosCelda = celda(row, col.fotos).split(/[\n,]+/).map((u) => u.trim()).filter(Boolean);
+      const fotosCelda = celda(row, col.fotos).split(/[\s,]+/).map((u) => u.trim()).filter(Boolean);
       const photos = [celda(row, col.imagen), ...fotosCelda].filter((v, i, arr) => v && arr.indexOf(v) === i);
       const id = celda(row, col.id);
       const tipo = celda(row, col.tipo) || "Inmueble";
