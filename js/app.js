@@ -357,25 +357,29 @@ function cardHtml(listing) {
   const price = priceForCard(listing);
   const badgeClass = isArriendo(listing.servicio) && !isVenta(listing.servicio) ? "arriendo" : "venta";
   const badgeText = listing.servicio || "Disponible";
+  const creditBucket = creditoBucket(listing.credito);
+  const creditChip = creditBucket === "si" ? "Aplica crédito" : creditBucket === "no" ? "Solo contado" : "";
 
+  // Cada dato lleva su ícono (los íconos se definen más abajo en ICONS).
   const specs = [];
-  if (listing.area) specs.push(`${listing.area} m²`);
-  if (listing.habitaciones) specs.push(`${listing.habitaciones} hab.`);
-  if (listing.banos) specs.push(`${listing.banos} baños`);
-  if (listing.piso) specs.push(pisoOrNivelesLabel(listing));
-  if (listing.parqueadero && listing.parqueadero.toLowerCase() !== "no") specs.push(`Parqueadero ${escapeHtml(listing.parqueadero)}`);
-  specs.push(creditoLabel(listing.credito));
+  if (listing.habitaciones) specs.push([ICONS.bed, `${escapeHtml(listing.habitaciones)} hab.`]);
+  if (listing.banos) specs.push([ICONS.bath, `${escapeHtml(listing.banos)} baños`]);
+  if (listing.area) specs.push([ICONS.area, `${escapeHtml(listing.area)} m²`]);
+  if (listing.parqueadero && listing.parqueadero.toLowerCase() !== "no") specs.push([ICONS.car, `${escapeHtml(listing.parqueadero)} parq.`]);
+  if (listing.piso) specs.push([ICONS.layers, pisoOrNivelesLabel(listing)]);
 
   return `
     <article class="card">
       <button type="button" class="card-image-link open-detail" data-id="${escapeAttr(listing.catalogId)}" aria-label="Ver detalle de este inmueble">
-        <img src="${escapeAttr(img)}" alt="${escapeAttr(listing.tipo)} en ${escapeAttr(listing.barrio)}" loading="lazy" onerror="this.src='${PLACEHOLDER_IMG}'">
+        <img src="${escapeAttr(img)}" alt="${escapeAttr(listing.tipo)} en ${escapeAttr(listing.barrio)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.src='${PLACEHOLDER_IMG}'">
         <span class="card-badge ${badgeClass}">${escapeHtml(badgeText)}</span>
+        ${creditChip ? `<span class="card-credit">${creditChip}</span>` : ""}
       </button>
       <div class="card-body">
         <p class="card-price">${formatCOP(price.amount)}${price.suffix ? `<small>${price.suffix}</small>` : ""}</p>
         <h3 class="card-title">${escapeHtml(listing.tipo)} en ${escapeHtml(listing.barrio)}</h3>
-        <div class="card-specs">${specs.map((s) => `<span>${s}</span>`).join("")}</div>
+        <p class="card-location">${ICONS.pin}<span>${escapeHtml(listing.barrio)}</span></p>
+        <div class="card-specs">${specs.map(([icon, text]) => `<span class="spec">${icon}${text}</span>`).join("")}</div>
         <div class="card-actions">
           <button type="button" class="card-link open-detail" data-id="${escapeAttr(listing.catalogId)}">Ver ficha completa →</button>
         </div>
@@ -393,6 +397,7 @@ const ICONS = {
   bath: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16v3a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4v-3ZM6 12V6a2 2 0 0 1 2-2c1 0 1.6.6 2 1M3 19h18"/></svg>`,
   layers: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 9 5-9 5-9-5 9-5ZM3 13l9 5 9-5"/></svg>`,
   car: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17h16M5 17l1.5-5.5A2 2 0 0 1 8.4 10h7.2a2 2 0 0 1 1.9 1.5L19 17M6 17v2M18 17v2"/><circle cx="7.5" cy="17" r="1.3"/><circle cx="16.5" cy="17" r="1.3"/></svg>`,
+  pin: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.1 7-11a7 7 0 0 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>`,
   credito: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18M7 15h4"/></svg>`,
 };
 
