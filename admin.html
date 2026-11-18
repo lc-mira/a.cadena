@@ -691,9 +691,9 @@ function _procesarPortafolio(r) {
   var enc = r.encabezados || [];
   // Construir mapa clave→índice usando el mismo IMP_mapa_ lógico del extractor
   var MAPA_CLAVES = {
-    id:'id', tipo:'tipo', proyecto:'proyecto', barrio:'barrio',
+    id:'id', tipo:'tipo', proyecto:'proyecto', barrio:'barrio', ciudad:'ciudad',
     precio:'precio', canon:'canon', area:'area', habitaciones:'habitaciones',
-    banos:'baños', parqueadero:'parqueadero', piso:'piso', estrato:'estrato',
+    banos:'baños', parqueadero:'parqueadero', piso:'piso', estrato:'estrato', administracion:'administracion', ascensor:'ascensor',
     estado:'estado', servicio:'servicio', credito:'credito', observaciones:'observaciones',
     link:'link', fotos:'fotos', captacion:'captacion',
     encargado:'encargado', celular:'celular',
@@ -767,7 +767,7 @@ function pintarInmuebles() {
 /* ============================================================
    INMUEBLES — FORMULARIO
    ============================================================ */
-var CAMPOS_PUBLICOS = ['tipo','proyecto','barrio','precio','canon','area','habitaciones','banos','parqueadero','piso','estrato','estado','servicio','credito','observaciones','link'];
+var CAMPOS_PUBLICOS = ['tipo','proyecto','barrio','ciudad','precio','canon','area','habitaciones','banos','parqueadero','piso','estrato','administracion','ascensor','estado','servicio','credito','observaciones','link'];
 var CAMPOS_PRIVADOS = ['encargado','celular','notasPrivadas'];
 var CAMPOS_COMISION = ['comision'];
 var CAMPOS_READONLY = ['id'];
@@ -778,6 +778,7 @@ var OPCIONES = {
   servicio: ['Venta','Arriendo','Venta y Arriendo'],
   captacion: ['Propio','Colega'],
   credito: ['Sí','No','Aplica subsidio'],
+  ascensor: ['Sí','No'],
   parqueadero: ['No tiene','Comunitario','Privado']
 };
 
@@ -863,7 +864,7 @@ function _renderCampos(contenedorId, claves, vals, privados) {
     } else if (ops) {
       var optHtml = '<option value=""></option>' + ops.map(function(o){ return '<option'+(o===v?' selected':'')+'>'+esc(o)+'</option>'; }).join('');
       control = '<select id="f-'+clave+'">'+optHtml+'</select>';
-    } else if (clave==='precio'||clave==='canon'||clave==='area'||clave==='habitaciones'||clave==='banos'||clave==='piso'||clave==='estrato') {
+    } else if (clave==='precio'||clave==='canon'||clave==='area'||clave==='habitaciones'||clave==='banos'||clave==='piso'||clave==='estrato'||clave==='administracion') {
       control = '<input id="f-'+clave+'" type="text" inputmode="decimal" value="'+esc(v)+'">';
     } else {
       control = '<input id="f-'+clave+'" type="text" value="'+esc(v)+'">';
@@ -888,10 +889,10 @@ function _renderCampos(contenedorId, claves, vals, privados) {
 
 function _tituloLabel(clave) {
   var m = {
-    tipo:'Tipo', proyecto:'Proyecto / Nombre', barrio:'Barrio / Zona',
+    tipo:'Tipo', proyecto:'Proyecto / Nombre', barrio:'Barrio / Zona', ciudad:'Ciudad',
     precio:'Precio de venta', canon:'Precio arriendo (mes)',
     area:'Área m²', habitaciones:'Habitaciones', banos:'Baños',
-    parqueadero:'Parqueadero(s)', piso:'Piso', estrato:'Estrato',
+    parqueadero:'Parqueadero(s)', piso:'Piso', estrato:'Estrato', administracion:'Administración (COP)', ascensor:'Ascensor',
     estado:'Estado', servicio:'Servicio', credito:'Aplica crédito',
     observaciones:'Observaciones públicas', link:'Link ficha externa',
     captacion:'Captación', encargado:'Encargado', celular:'Celular encargado',
@@ -907,6 +908,8 @@ function _pista(clave) {
     canon:  'Solo números, ej. 2500000',
     observaciones: 'Pública — la ven los visitantes del catálogo. Teléfonos y correos se ocultan solos.',
     notasPrivadas: 'Privada — solo la ven los administradores. Puedes anotar saldo de hipoteca, condiciones, etc.',
+    administracion: 'Solo conjunto cerrado. Solo números, ej. 350000',
+    ascensor: 'Para apartamentos.',
     comision: 'En pesos. Se registra cuando el negocio está cerrado.',
     id: 'El sistema lo asigna automáticamente.'
   };
@@ -1278,7 +1281,7 @@ function llenarDesdeUrl() {
     // Fotos
     if (d.fotos && d.fotos.length) { _setFotos(d.fotos); n++; }
     // Campos
-    ['tipo','proyecto','barrio','precio','canon','area','habitaciones','banos','parqueadero','piso','estrato','estado','servicio','credito','observaciones','encargado','celular','link'].forEach(function(clave){
+    ['tipo','proyecto','barrio','ciudad','precio','canon','area','habitaciones','banos','parqueadero','piso','estrato','administracion','ascensor','estado','servicio','credito','observaciones','encargado','celular','link'].forEach(function(clave){
       var v = d[clave];
       if (v == null || v === '') return;
       var el = document.getElementById('f-'+clave);
