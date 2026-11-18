@@ -41,6 +41,15 @@ const CONFIG = {
   LOGO_URL: "",          // ej. "img/logo.png" (ruta relativa a la raíz del sitio)
   FOTO_AGENTE_URL: "",   // ej. "img/alejandro.jpg"
 
+  // Datos del asesor para portada y ficha (déjalos vacíos para ocultarlos).
+  AGENTE_CARGO: "",
+  AGENTE_ANIOS: 0,
+  AGENTE_COLEGAS: 0,
+  AGENTE_TRANSACCIONES: 0,
+  AGENTE_ANIO_REFERENCIA: 2026,
+  // Zonas de la portada ("Explora por zona"): se buscan en el catálogo.
+  ZONAS_DESTACADAS: ["Ciudad Melendez", "Ciudad Pacifica", "El Ingenio"],
+
   // Colores (opcionales). Vacío = los colores originales del catálogo.
   COLOR_PRIMARIO: "#0f5b4f",
   COLOR_PRIMARIO_OSCURO: "#0b4339",
